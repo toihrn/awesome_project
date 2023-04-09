@@ -54,6 +54,9 @@ func genMGetCaseResponse(caseList []*model.Case, err error) *vo.MGetCaseResponse
 			CriminalName:       do.CriminalName,
 			CriminalPictureUrl: do.CriminalPictureUrlStr,
 			ExtraDescription:   do.ExtraInfo,
+			CriminalAddress:    do.CriminalAddress,
+			CriminalPhone:      do.CriminalPhone,
+			CriminalGender:     do.CriminalGender,
 		}
 		caseVos = append(caseVos, caseVo)
 	}

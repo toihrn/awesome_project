@@ -26,6 +26,9 @@ type CaseVo struct {
 	CaseStatus         int32   `json:"case_status,omitempty"`
 	CriminalId         int64   `json:"criminal_id,omitempty"`
 	CriminalName       string  `json:"criminal_name,omitempty"`
+	CriminalAddress    *string `json:"criminal_address"`
+	CriminalPhone      *string `json:"criminal_phone"`
+	CriminalGender     string  `json:"criminal_gender"`
 	CriminalPictureUrl *string `json:"criminal_picture_url,omitempty"`
 	ExtraDescription   *string `json:"extra_description,omitempty"`
 }
