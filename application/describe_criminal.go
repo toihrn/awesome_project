@@ -63,9 +63,6 @@ func DescribeCriminal(ctx context.Context, req *vo.DescribeCriminalRequest) *vo.
 	}
 
 	resultTag := faceTag.ToMap()
-
-	logrus.Infof("[DescribeCriminal] before return urlLst: %v", xjson.ToString(pictureUrlList))
-
 	return &vo.DescribeCriminalResponse{
 		CriminalPictureUrlList: pictureUrlList,
 		ChatId:                 req.ChatId,
