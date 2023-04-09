@@ -23,6 +23,10 @@ func SavePicture(ctx context.Context, req *vo.SaveCriminalPictureRequest) *vo.Sa
 		logrus.Errorf("[SavePicture] err: %v\n", err)
 		return genSavePictureErrResp(err)
 	}
+	if len(caseFileList) == 0 || caseFileList[0] == nil {
+		logrus.Errorf("[SavePicture] case nil by caseId: %v\n", caseId)
+		return genSavePictureErrResp(errors.New("该案件不存在"))
+	}
 
 	cf := caseFileList[0]
 	existUrlList := cf.CriminalPictureUrlList()
