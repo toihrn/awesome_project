@@ -77,6 +77,7 @@ func GetPromptDescribeTags(ctx context.Context, prompt string) (*model.FaceTag, 
 }
 
 func GeneratePictures(ctx context.Context, prompt string, generateNum int64) ([]string, error) {
+	prompt = fmt.Sprintf("按照下面描述生成半身证件照\n%v", prompt)
 	req := openai.ImageRequest{
 		Prompt:         prompt,
 		N:              int(generateNum),
