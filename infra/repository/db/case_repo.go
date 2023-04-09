@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/toxb11/awesome_project/infra/repository/db/conv"
 	"github.com/toxb11/awesome_project/infra/repository/db/db_entity"
+	"github.com/toxb11/awesome_project/infra/utils/xjson"
 	"github.com/toxb11/awesome_project/model"
 	"time"
 )
@@ -36,6 +37,7 @@ func (r *caseRepositoryImpl) MGetCase(ctx context.Context, queryParam *model.Cas
 	caseEntity := &db_entity.CaseEntity{}
 	caseEntityList := make([]*db_entity.CaseEntity, 0)
 	doList := make([]*model.Case, 0)
+	logrus.Infof("[MGetCase] queryparam: %v\n", xjson.ToString(queryParam))
 	if len(queryParam.CaseIdList) > 0 {
 		CaseDBHandler.Table(caseEntity.TableName()).Where("id IN ?", queryParam.CaseIdList).Find(&caseEntityList)
 		return dbResHandler(ctx, caseEntityList, doList)
