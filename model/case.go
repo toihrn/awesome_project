@@ -36,7 +36,7 @@ func (c *Case) SetCriminalPictureByStrSlice(urlList []string) {
 	str := ""
 	for i, s := range urlList {
 		str += s
-		if i != len(urlList)-1 {
+		if i < len(urlList)-1 {
 			str += ","
 		}
 	}
