@@ -147,6 +147,7 @@ func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err er
 		logrus.Errorf("[SimilarFace] unmarshal err:%v\n", err)
 		return "", err
 	}
+	logrus.Errorf("[SimilarFace] req: %v, resp: %v", xjson.ToString(req), xjson.ToString(resp))
 	if resp == nil || resp.ErrorMsg != "SUCCESS" || len(resp.Result.UserList) == 0 {
 		return "", nil
 	}
