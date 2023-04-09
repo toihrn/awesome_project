@@ -5,6 +5,8 @@ import (
 	"errors"
 	"github.com/sirupsen/logrus"
 	"github.com/toxb11/awesome_project/infra/ai"
+	"github.com/toxb11/awesome_project/infra/bd_face"
+	"github.com/toxb11/awesome_project/infra/repository/db"
 	"github.com/toxb11/awesome_project/vo"
 	"sync"
 )
@@ -21,6 +23,7 @@ func ConfirmPicture(ctx context.Context, req *vo.ConfirmPictureRequest) *vo.Conf
 	res := true
 	var vErr error
 	variableUrlList := make([]string, 0)
+	similarBase64List := make([]string, 0)
 	go func() {
 		defer wg.Done()
 		if req.NeedVariablePicturesNum > 0 {
@@ -34,7 +37,14 @@ func ConfirmPicture(ctx context.Context, req *vo.ConfirmPictureRequest) *vo.Conf
 	go func() {
 		defer wg.Done()
 		if req.NeedReasoningSimilarPicturesNum > 0 {
-			logrus.Infof("[ConfirmPicture] not support similar reason yet")
+			token, err := bd_face.SimilarFace(ctx, req.OriPictureUrl)
+			if err != nil {
+				return
+			}
+			caseDO, err := db.CaseRepo.GetCaseByFaceToken(ctx, token)
+			if caseDO != nil && caseDO.CriminalPictureBase64 != nil {
+				similarBase64List = append(similarBase64List, *caseDO.CriminalPictureBase64)
+			}
 		}
 	}()
 	wg.Wait()
@@ -43,9 +53,9 @@ func ConfirmPicture(ctx context.Context, req *vo.ConfirmPictureRequest) *vo.Conf
 	}
 
 	resp := &vo.ConfirmPictureResponse{
-		ChatId:                         req.ChatId,
-		VariablePictureUrlList:         variableUrlList,
-		ReasoningSimilarPictureUrlList: nil,
+		ChatId:                            req.ChatId,
+		VariablePictureUrlList:            variableUrlList,
+		ReasoningSimilarPictureBase64List: similarBase64List,
 		BaseResponse: vo.BaseResponse{
 			Status: vo.ResponseSuccess,
 		},

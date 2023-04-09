@@ -6,13 +6,9 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/sashabaranov/go-openai"
 	"github.com/sirupsen/logrus"
+	"github.com/toxb11/awesome_project/infra/utils/http_utils"
 	"github.com/toxb11/awesome_project/infra/utils/xjson"
 	"github.com/toxb11/awesome_project/model"
-	"image"
-	"image/png"
-	"io/ioutil"
-	"math/rand"
-	"net/http"
 )
 
 var OpenAIClient *openai.Client
@@ -101,23 +97,10 @@ func GeneratePictures(ctx context.Context, prompt string, generateNum int64) ([]
 }
 
 func VariablePictures(ctx context.Context, oriPictureUrl string, variableNum int) ([]string, error) {
-	img, err := downloadImage(oriPictureUrl)
+	tempFile, err := http_utils.GetImageFileByUrl(oriPictureUrl)
 	if err != nil {
-		logrus.Errorf("[VariablePictures] downloadPict err; %v\n", err)
 		return nil, err
 	}
-	tempFile, err := ioutil.TempFile("", fmt.Sprintf("img_%v.png", rand.Intn(100)))
-	if err != nil {
-		logrus.Errorf("[VariablePictures] TempFile err; %v\n", err)
-		return nil, err
-	}
-	defer tempFile.Close()
-	err = png.Encode(tempFile, img)
-	if err != nil {
-		logrus.Errorf("[VariablePictures] encode png err; %v\n", err)
-		return nil, err
-	}
-
 	req := openai.ImageVariRequest{
 		Image: tempFile,
 		N:     variableNum,
@@ -133,19 +116,4 @@ func VariablePictures(ctx context.Context, oriPictureUrl string, variableNum int
 		resUrlList = append(resUrlList, datum.URL)
 	}
 	return resUrlList, nil
-}
-
-func downloadImage(url string) (image.Image, error) {
-	response, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
-
-	img, _, err := image.Decode(response.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return img, nil
 }

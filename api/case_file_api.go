@@ -55,7 +55,21 @@ func SetupCaseFileRouter(engine *gin.Engine) *gin.Engine {
 		c.PureJSON(http.StatusOK, response)
 	})
 
-	engine.POST("/chat/save_")
+	engine.POST("/chat/save_picture", func(c *gin.Context) {
+		req := &vo.SaveCriminalPictureRequest{}
+		err := c.Bind(&req)
+		if err != nil {
+			logrus.Errorf("[SavePicture] bind req err: %v\n", err)
+			return
+		}
+		response := application.SavePicture(c, req)
+		c.PureJSON(http.StatusOK, response)
+	})
+
+	//engine.POST("/chat/m_get", func(c *gin.Context) {
+	//	req := &vo.MGetChatRequest{}
+	//	err := c.Bind()
+	//})
 
 	return engine
 

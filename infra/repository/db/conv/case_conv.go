@@ -19,10 +19,10 @@ func ConvertCaseDOToEntity(ctx context.Context, caseDO *model.Case) (*db_entity.
 		CriminalName:    caseDO.CriminalName,
 		Status:          int32(caseDO.Status),
 		CriminalPictureUrl: func() string {
-			if caseDO.CriminalPictureUrl == nil {
+			if caseDO.CriminalPictureUrlStr == nil {
 				return ""
 			}
-			return *caseDO.CriminalPictureUrl
+			return *caseDO.CriminalPictureUrlStr
 		}(),
 		ExtraInfo: xjson.ToString(caseDO.ExtraInfo),
 	}, nil
@@ -40,10 +40,10 @@ func ConvertCaseEntityToDO(ctx context.Context, caseEntity *db_entity.CaseEntity
 			}
 			return &caseEntity.CriminalAddress
 		}(),
-		CriminalPictureUrl: &caseEntity.CriminalPictureUrl,
-		CriminalPhone:      &caseEntity.CriminalPhone,
-		CriminalGender:     caseEntity.CriminalGender,
-		Status:             model.CaseStatus(caseEntity.Status),
-		ExtraInfo:          &caseEntity.ExtraInfo,
+		CriminalPictureUrlStr: &caseEntity.CriminalPictureUrl,
+		CriminalPhone:         &caseEntity.CriminalPhone,
+		CriminalGender:        caseEntity.CriminalGender,
+		Status:                model.CaseStatus(caseEntity.Status),
+		ExtraInfo:             &caseEntity.ExtraInfo,
 	}, nil
 }

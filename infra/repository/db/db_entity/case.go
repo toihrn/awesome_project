@@ -7,12 +7,13 @@ type CaseEntity struct {
 	Name               string    `gorm:"column:name"`           // 案件名字
 	CriminalId         int64     `gorm:"column:criminal_id"`    //  罪犯id
 	CriminalAddress    string    `gorm:"column:criminal_address"`
-	CriminalName       string    `gorm:"criminal_name"`                     // 罪犯名
-	CriminalPhone      string    `gorm:"column:criminal_phone"`             //联系电话
-	CriminalGender     string    `gorm:"column:criminal_gender"`            //性别
-	Status             int32     `gorm:"column:status"`                     //案件状态
-	CriminalPictureUrl string    `gorm:"column:criminal_picture_url"`       //
-	FaceToken          string    `gorm:"column:face_token"`                 // baidu的FaceToken
+	CriminalName       string    `gorm:"criminal_name"`               // 罪犯名
+	CriminalPhone      string    `gorm:"column:criminal_phone"`       //联系电话
+	CriminalGender     string    `gorm:"column:criminal_gender"`      //性别
+	Status             int32     `gorm:"column:status"`               //案件状态
+	CriminalPictureUrl string    `gorm:"column:criminal_picture_url"` //
+	FaceToken          string    `gorm:"column:face_token"`           // baidu的FaceToken
+	FaceBase64         *string   `gorm:"column:new_column"`
 	CreateTime         time.Time `gorm:"column:create_time;autoCreateTime"` //  系统创建时间（s）
 	UpdateTime         time.Time `gorm:"column:update_time;autoUpdateTime"` //  系统更新时间（s）
 	ExtraInfo          string    `gorm:"column:extra_info"`                 //扩展字段(json)

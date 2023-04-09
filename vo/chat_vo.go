@@ -25,10 +25,10 @@ type ConfirmPictureRequest struct {
 }
 
 type ConfirmPictureResponse struct {
-	ChatId                         int64        `json:"chat_id"`
-	VariablePictureUrlList         []string     `json:"variable_picture_url_list"`
-	ReasoningSimilarPictureUrlList []string     `json:"reasoning_similar_picture_url_list"`
-	BaseResponse                   BaseResponse `json:"base_response"`
+	ChatId                            int64        `json:"chat_id"`
+	VariablePictureUrlList            []string     `json:"variable_picture_url_list"`
+	ReasoningSimilarPictureBase64List []string     `json:"reasoning_similar_picture_url_list"`
+	BaseResponse                      BaseResponse `json:"base_response"`
 }
 
 type SaveCriminalPictureRequest struct {
@@ -38,4 +38,8 @@ type SaveCriminalPictureRequest struct {
 
 type SaveCriminalPictureResponse struct {
 	BaseResponse BaseResponse `json:"base_response"`
+}
+
+type MGetChatRequest struct {
+	ChatIds []int
 }

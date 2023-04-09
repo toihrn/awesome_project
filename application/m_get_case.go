@@ -52,7 +52,7 @@ func genMGetCaseResponse(caseList []*model.Case, err error) *vo.MGetCaseResponse
 			CaseStatus:         int32(do.Status),
 			CriminalId:         do.CriminalId,
 			CriminalName:       do.CriminalName,
-			CriminalPictureUrl: do.CriminalPictureUrl,
+			CriminalPictureUrl: do.CriminalPictureUrlStr,
 			ExtraDescription:   do.ExtraInfo,
 		}
 		caseVos = append(caseVos, caseVo)
