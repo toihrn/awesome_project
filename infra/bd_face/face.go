@@ -12,6 +12,7 @@ import (
 	"github.com/toxb11/awesome_project/infra/utils/http_utils"
 	"github.com/toxb11/awesome_project/infra/utils/xjson"
 	"image/png"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -82,21 +83,49 @@ func RegisterFace(ctx context.Context, imageUrl string) (faceToken string, err e
 
 func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err error) {
 	file, err := http_utils.GetPngImageFileByUrl(imageUrl)
+	if file != nil {
+		defer file.Close()
+	}
 	if err != nil {
 		return "", err
 	}
-	imgDecode, err := png.Decode(file)
+	/*
+		file, err := os.Open("path/to/your/image.png")
+		if err != nil {
+			fmt.Println("Error opening file:", err)
+			return
+		}
+		defer file.Close()
+
+		// 从os.File中读取所有字节
+		fileBytes, err := io.ReadAll(file)
+		if err != nil {
+			fmt.Println("Error reading file:", err)
+			return
+		}
+
+		// 将字节转换为base64编码的字符串
+		base64Encoded := base64.StdEncoding.EncodeToString(fileBytes)
+	*/
+	fileBytes, err := io.ReadAll(file)
 	if err != nil {
-		logrus.Errorf("[SimilarFace] decode err: %v\n", err)
-		return "", err
+		logrus.Errorf("[SimilarFace] read byte from file err: %v\n", err)
+		return "", nil
 	}
-	var buf bytes.Buffer
-	err = png.Encode(&buf, imgDecode)
-	if err != nil {
-		logrus.Errorf("[SimilarFace] encode err: %v\n", err)
-		return "", err
-	}
-	base64Str := base64.StdEncoding.EncodeToString(buf.Bytes())
+	base64Str := base64.StdEncoding.EncodeToString(fileBytes)
+
+	//imgDecode, err := png.Decode(file)
+	//if err != nil {
+	//	logrus.Errorf("[SimilarFace] decode err: %v\n", err)
+	//	return "", err
+	//}
+	//var buf bytes.Buffer
+	//err = png.Encode(&buf, imgDecode)
+	//if err != nil {
+	//	logrus.Errorf("[SimilarFace] encode err: %v\n", err)
+	//	return "", err
+	//}
+	//base64Str := base64.StdEncoding.EncodeToString(buf.Bytes())
 	httpUrl := fmt.Sprintf("%v%v", bdSimilarFaceUrlPrefix, GetAccessToken())
 	payload := strings.NewReader(fmt.Sprintf(`{"group_id":"1","image":"%v","image_type":"BASE64","user_id":"%v"}`, base64Str, bduid))
 	req, err := http.NewRequest("POST", httpUrl, payload)
