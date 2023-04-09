@@ -22,7 +22,6 @@ func GetImageFileByUrl(oriPictureUrl string) (*os.File, error) {
 		logrus.Errorf("[VariablePictures] TempFile err; %v\n", err)
 		return nil, err
 	}
-	defer tempFile.Close()
 	err = png.Encode(tempFile, img)
 	if err != nil {
 		logrus.Errorf("[VariablePictures] encode png err; %v\n", err)
