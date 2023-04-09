@@ -36,6 +36,9 @@ func skvus(key string) string {
 }
 
 func GeneratePromptBySum(ctx context.Context, prevMsg string, curMsg string) (string, error) {
+	if prevMsg == "" {
+		return curMsg, nil
+	}
 	req := openai.ChatCompletionRequest{
 		Model: gpt35Model,
 		Messages: []openai.ChatCompletionMessage{{
