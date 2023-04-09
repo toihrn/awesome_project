@@ -72,10 +72,6 @@ func genConfirmPictureErrResp(err error) *vo.ConfirmPictureResponse {
 	}
 }
 
-//func genConfirmPictureNormalResp() {
-//
-//}
-
 func checkConfirmPictureReq(ctx context.Context, req *vo.ConfirmPictureRequest) error {
 	if req == nil {
 		return errors.New("req empty")

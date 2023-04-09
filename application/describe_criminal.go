@@ -17,17 +17,18 @@ func DescribeCriminal(ctx context.Context, req *vo.DescribeCriminalRequest) *vo.
 		return genDescribeCriminalErrResp(err)
 	}
 	curSentence, err := convertReqToCurSentence(ctx, req)
-	prevSentence, err := db.ChatSentenceRepo.GetSentence(ctx, req.ChatId, req.PreviousSentenceId)
-	if err != nil {
-		return genDescribeCriminalErrResp(err)
-	}
-	prompt := ""
-	if prevSentence != nil {
-		prompt, err = ai.GeneratePromptBySum(ctx, prevSentence.DescribeMsg, curSentence.OriDescribeMsg)
-		if err != nil {
-			prompt = curSentence.DescribeMsg
-		}
-	}
+	//prevSentence, err := db.ChatSentenceRepo.GetSentence(ctx, req.ChatId, req.PreviousSentenceId)
+	//if err != nil {
+	//	return genDescribeCriminalErrResp(err)
+	//}
+	//prompt := ""
+	//if prevSentence != nil {
+	//	prompt, err = ai.GeneratePromptBySum(ctx, prevSentence.DescribeMsg, curSentence.OriDescribeMsg)
+	//	if err != nil {
+	//		prompt = curSentence.DescribeMsg
+	//	}
+	//}
+	prompt := req.Message
 	curSentence.DescribeMsg = prompt
 	res := true
 	var faceTag *model.FaceTag
