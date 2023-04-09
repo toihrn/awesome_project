@@ -17,9 +17,9 @@ type CaseEntity struct {
 	CriminalPictureUrl string    `gorm:"column:criminal_picture_url"` //
 	FaceToken          string    `gorm:"column:face_token"`           // baidu的FaceToken
 	FaceBase64         *string   `gorm:"column:new_column"`
-	CreateTime         time.Time `gorm:"column:create_time;autoCreateTime"` //  系统创建时间（s）
-	UpdateTime         time.Time `gorm:"column:update_time;autoUpdateTime"` //  系统更新时间（s）
-	ExtraInfo          string    `gorm:"column:extra_info"`                 //扩展字段(json)
+	CreateTime         time.Time `gorm:"column:create_time;autoCreateTime:<-:create"` //  系统创建时间（s）
+	UpdateTime         time.Time `gorm:"column:update_time;autoUpdateTime"`           //  系统更新时间（s）
+	ExtraInfo          string    `gorm:"column:extra_info"`                           //扩展字段(json)
 }
 
 func (c *CaseEntity) TableName() string {
