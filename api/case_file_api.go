@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/toxb11/awesome_project/application"
+	"github.com/toxb11/awesome_project/infra/utils/xjson"
 	"github.com/toxb11/awesome_project/vo"
 	"net/http"
 )
@@ -39,6 +40,7 @@ func SetupCaseFileRouter(engine *gin.Engine) *gin.Engine {
 			return
 		}
 		response := application.DescribeCriminal(c, req)
+		logrus.Infof("[DescribeCriminal] response in api: %v", xjson.ToString(response))
 		c.JSON(http.StatusOK, response)
 	})
 

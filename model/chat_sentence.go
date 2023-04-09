@@ -13,8 +13,11 @@ type ChatSentence struct {
 
 func (cs *ChatSentence) ConcatUrlListToStr() string {
 	res := ""
-	for _, s := range cs.GenerateCriminalPictureUrlList {
+	for i, s := range cs.GenerateCriminalPictureUrlList {
 		res += s
+		if i != len(cs.GenerateCriminalPictureUrlList) {
+			res += ","
+		}
 	}
 	return res
 }
