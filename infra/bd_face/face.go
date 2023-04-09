@@ -32,7 +32,7 @@ func InitBdClient() {
 }
 
 func RegisterFace(ctx context.Context, imageUrl string) (faceToken string, err error) {
-	file, err := http_utils.GetImageFileByUrl(imageUrl)
+	file, err := http_utils.GetPngImageFileByUrl(imageUrl)
 	if file != nil {
 		defer file.Close()
 	}
@@ -81,10 +81,7 @@ func RegisterFace(ctx context.Context, imageUrl string) (faceToken string, err e
 }
 
 func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err error) {
-	file, err := http_utils.GetImageFileByUrl(imageUrl)
-	if file != nil {
-		defer file.Close()
-	}
+	file, err := http_utils.GetPngImageFileByUrl(imageUrl)
 	if err != nil {
 		return "", err
 	}

@@ -98,7 +98,7 @@ func GeneratePictures(ctx context.Context, prompt string, generateNum int64) ([]
 }
 
 func VariablePictures(ctx context.Context, oriPictureUrl string, variableNum int) ([]string, error) {
-	tempFile, err := http_utils.GetImageFileByUrl(oriPictureUrl)
+	tempFile, err := http_utils.GetPngImageFileByUrl(oriPictureUrl)
 	if tempFile != nil {
 		defer tempFile.Close()
 	}
