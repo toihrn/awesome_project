@@ -30,9 +30,19 @@ func MGetCase(ctx context.Context, req *vo.MGetCaseRequest) *vo.MGetCaseResponse
 
 func convertReqToQueryParam(ctx context.Context, request *vo.MGetCaseRequest) (*model.CaseQueryParam, error) {
 	ids := request.CaseIds
-	return &model.CaseQueryParam{
+	p := &model.CaseQueryParam{
 		CaseIdList: ids,
-	}, nil
+	}
+	if request.TimeRange != nil {
+		p.QueryTime = &model.TimeUnion{
+			BeginTime: request.TimeRange.BeginTime,
+			EndTime:   request.TimeRange.EndTime,
+		}
+	}
+	if request.CriminalId != nil {
+		p.CriminalId = request.CriminalId
+	}
+	return p, nil
 }
 
 func genMGetCaseResponse(caseList []*model.Case, err error) *vo.MGetCaseResponse {
