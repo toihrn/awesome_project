@@ -88,7 +88,7 @@ func GeneratePictures(ctx context.Context, prompt string, generateNum int64) ([]
 		logrus.Errorf("[GeneratePictures] err: %v\n", err)
 		return nil, err
 	}
-	logrus.Infof("[GeneratePictures] req: %v , response: %v\n", xjson.ToString(req), xjson.ToString(response))
+	logrus.Infof("[GeneratePictures] req: %v , response picture num: %v\n", xjson.ToString(req), len(response.Data))
 	urls := make([]string, 0, generateNum)
 	for _, data := range response.Data {
 		urls = append(urls, data.URL)
