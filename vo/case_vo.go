@@ -36,8 +36,8 @@ type TimeRange struct {
 }
 
 type CreateCaseRequest struct {
-	Name            string  `json:"name"`
-	Description     *string `json:"description,omitempty"`
+	Name            string  `json:"case_name"`
+	Description     *string `json:"extra_description,omitempty"`
 	CriminalName    string  `json:"criminal_name"`
 	CriminalAddress *string `json:"criminal_address"`
 	CriminalPhone   *string `json:"criminal_phone"`

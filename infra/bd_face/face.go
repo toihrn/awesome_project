@@ -89,24 +89,6 @@ func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err er
 	if err != nil {
 		return "", err
 	}
-	/*
-		file, err := os.Open("path/to/your/image.png")
-		if err != nil {
-			fmt.Println("Error opening file:", err)
-			return
-		}
-		defer file.Close()
-
-		// 从os.File中读取所有字节
-		fileBytes, err := io.ReadAll(file)
-		if err != nil {
-			fmt.Println("Error reading file:", err)
-			return
-		}
-
-		// 将字节转换为base64编码的字符串
-		base64Encoded := base64.StdEncoding.EncodeToString(fileBytes)
-	*/
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
 		logrus.Errorf("[SimilarFace] read byte from file err: %v\n", err)
@@ -114,18 +96,6 @@ func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err er
 	}
 	base64Str := base64.StdEncoding.EncodeToString(fileBytes)
 
-	//imgDecode, err := png.Decode(file)
-	//if err != nil {
-	//	logrus.Errorf("[SimilarFace] decode err: %v\n", err)
-	//	return "", err
-	//}
-	//var buf bytes.Buffer
-	//err = png.Encode(&buf, imgDecode)
-	//if err != nil {
-	//	logrus.Errorf("[SimilarFace] encode err: %v\n", err)
-	//	return "", err
-	//}
-	//base64Str := base64.StdEncoding.EncodeToString(buf.Bytes())
 	httpUrl := fmt.Sprintf("%v%v", bdSimilarFaceUrlPrefix, GetAccessToken())
 	payload := strings.NewReader(fmt.Sprintf(`{"group_id_list": "1,2,3,4","image":"%v","image_type":"BASE64","user_id":"%v"}`, base64Str, bduid))
 	req, err := http.NewRequest("POST", httpUrl, payload)
@@ -157,37 +127,6 @@ func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err er
 	}
 	return "", nil
 }
-
-/*
-func main() {
-
-    url := "https://aip.baidubce.com/rest/2.0/face/v3/search?access_token=" + GetAccessToken()
-    payload := strings.NewReader(`{"group_id_list":"1,2,3,4,5,6","image":"123456789","image_type":"BASE64"}`)
-    client := &http.Client {}
-    req, err := http.NewRequest("POST", url, payload)
-
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-    req.Header.Add("Content-Type", "application/json")
-
-    res, err := client.Do(req)
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-    defer res.Body.Close()
-
-    body, err := ioutil.ReadAll(res.Body)
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-    fmt.Println(string(body))
-}
-
-*/
 
 type BdFaceResp struct {
 	ErrorMsg string `json:"error_msg,omitempty"`
