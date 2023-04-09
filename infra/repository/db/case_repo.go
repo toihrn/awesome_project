@@ -45,6 +45,7 @@ func (r *caseRepositoryImpl) MGetCase(ctx context.Context, queryParam *model.Cas
 	if queryParam.QueryTime != nil {
 		begin := time.Unix(queryParam.QueryTime.BeginTime, 0)
 		end := time.Unix(queryParam.QueryTime.EndTime, 0)
+		logrus.Infof("[MGetCase Repo] begin: %v, end: %v\n", xjson.ToString(begin), xjson.ToString(end))
 		CaseDBHandler.Table(caseEntity.TableName()).Where("create_time BETWEEN ? AND ?", begin.Format(time.DateTime), end.Format(time.DateTime))
 		return dbResHandler(ctx, caseEntityList, doList)
 	}
