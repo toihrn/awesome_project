@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/sirupsen/logrus"
 	"github.com/toxb11/awesome_project/infra/repository/db"
+	"github.com/toxb11/awesome_project/infra/utils/xjson"
 	"github.com/toxb11/awesome_project/model"
 	"github.com/toxb11/awesome_project/vo"
 )
@@ -45,6 +46,7 @@ func checkSavePictureReq(ctx context.Context, req *vo.SaveCriminalPictureRequest
 	if req == nil {
 		return errors.New("empty req")
 	}
+	logrus.Infof("[checkSavePictureReq] req: %v\n", xjson.ToString(req))
 	if req.CaseId < 0 || len(req.ChatPictureMap) == 0 {
 		return errors.New("invalid req")
 	}
