@@ -57,7 +57,7 @@ func (r *caseRepositoryImpl) MGetCase(ctx context.Context, queryParam *model.Cas
 
 func (r *caseRepositoryImpl) GetCaseByFaceToken(ctx context.Context, faceToken string) (*model.Case, error) {
 	caseEntity := &db_entity.CaseEntity{}
-	tx := CaseDBHandler.Table(caseEntity.TableName()).Where("where face_token = ?", faceToken)
+	tx := CaseDBHandler.Table(caseEntity.TableName()).Where("where face_token = ?", faceToken).Find(&caseEntity)
 	if tx.Error != nil {
 		logrus.Errorf("[GetCaseByFaceToken] err: %v\n", tx.Error)
 		return nil, tx.Error

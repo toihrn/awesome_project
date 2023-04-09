@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/toxb11/awesome_project/application"
 	"github.com/toxb11/awesome_project/vo"
@@ -17,6 +18,16 @@ func SetupBaseRouter() *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
 	r := gin.Default()
+
+	// 添加CORS中间件
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true // 允许所有来源
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"}
+	config.ExposeHeaders = []string{"Content-Length"}
+	config.AllowCredentials = true
+
+	r.Use(cors.New(config))
 
 	// Ping test
 	r.GET("/ping", func(c *gin.Context) {
