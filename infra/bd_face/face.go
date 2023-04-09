@@ -127,7 +127,7 @@ func SimilarFace(ctx context.Context, imageUrl string) (faceToken string, err er
 	//}
 	//base64Str := base64.StdEncoding.EncodeToString(buf.Bytes())
 	httpUrl := fmt.Sprintf("%v%v", bdSimilarFaceUrlPrefix, GetAccessToken())
-	payload := strings.NewReader(fmt.Sprintf(`{"group_id":"1","image":"%v","image_type":"BASE64","user_id":"%v"}`, base64Str, bduid))
+	payload := strings.NewReader(fmt.Sprintf(`{"group_id_list": "1,2,3,4","image":"%v","image_type":"BASE64","user_id":"%v"}`, base64Str, bduid))
 	req, err := http.NewRequest("POST", httpUrl, payload)
 	if err != nil {
 		logrus.Errorf("[SimilarFace] err: %v\n", err)
