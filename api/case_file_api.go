@@ -41,7 +41,7 @@ func SetupCaseFileRouter(engine *gin.Engine) *gin.Engine {
 		}
 		response := application.DescribeCriminal(c, req)
 		logrus.Infof("[DescribeCriminal] response in api: %v", xjson.ToString(response))
-		c.JSON(http.StatusOK, response)
+		c.PureJSON(http.StatusOK, response)
 	})
 
 	engine.POST("/chat/confirm_picture", func(c *gin.Context) {
@@ -52,7 +52,7 @@ func SetupCaseFileRouter(engine *gin.Engine) *gin.Engine {
 			return
 		}
 		response := application.ConfirmPicture(c, req)
-		c.JSON(http.StatusOK, response)
+		c.PureJSON(http.StatusOK, response)
 	})
 
 	engine.POST("/chat/save_")
