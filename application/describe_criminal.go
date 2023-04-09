@@ -108,7 +108,7 @@ func checkDescribeCriminal(ctx context.Context, req *vo.DescribeCriminalRequest)
 		logrus.Errorf("[checkDescribeCriminal] req empty")
 		return errors.New("empty req")
 	}
-	if req.ChatId == 0 || req.SentenceId == 0 {
+	if req.ChatId < 0 || req.SentenceId < 0 {
 		logrus.Errorf("[checkDescribeCriminal] req invalid, chat or sentence nil, req: %v\n", xjson.ToString(req))
 		return errors.New("invalid req")
 	}

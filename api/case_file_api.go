@@ -42,6 +42,19 @@ func SetupCaseFileRouter(engine *gin.Engine) *gin.Engine {
 		c.JSON(http.StatusOK, response)
 	})
 
+	engine.POST("/chat/confirm_picture", func(c *gin.Context) {
+		req := &vo.ConfirmPictureRequest{}
+		err := c.Bind(&req)
+		if err != nil {
+			logrus.Errorf("[ConfirmPicture] bind req err: %v\n", err)
+			return
+		}
+		response := application.ConfirmPicture(c, req)
+		c.JSON(http.StatusOK, response)
+	})
+
+	engine.POST("/chat/save_")
+
 	return engine
 
 }
